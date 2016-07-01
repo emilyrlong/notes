@@ -1,0 +1,217 @@
+Emilys-MacBook-Pro-6:~ emilylong$
+
+To get to a certain area of the computer type...
+Emilys-MacBook-Pro-6:~ emilylong$ cd Desktop/
+moves you to
+
+Emilys-MacBook-Pro-6:Desktop emilylong$
+cd Asteroids/
+moved me to asteroids emilylong$
+
+To compare two files type...
+Emilys-MacBook-Pro-6:Desktop emilylong$ diff -u game_old.js game_new.js
+
+cd ~                          # change directories to your home directory
+mkdir version-control         # make version-control directory
+cd version-control            # go to version-control directory
+mkdir reflections             # create reflections directory
+cd reflections                # go to reflections directory
+subl lesson_1_reflections.txt # launch sublime with file called lesson_1_reflections.txt (you can replace subl with another editor here if you prefer a different one)
+
+pwd # print working directory - shows what directory you are in
+ls  # list the files in this directory
+
+$ git log --stat
+will show you which files were changed in your repo at the time
+
+ * To stop viewing git log output, press q (which stands for quit).
+ press q to get out of the stats part
+
+$ git diff id1 id2
+will compare to commits, 1 being the old one, 2 being the new one.
+prints each line that is present in one commit but not the other.
+
+$ git clone https://...
+clones a repository from one computer to another, including the repos history
+
+you can look at past commits and test for bugs using
+$ git checkout commitid
+it temporarily resets all files in a directory to their state at the time of a specific commit.
+
+move a file from a directory with mv
+~ $ mv Downloads/name name
+use the same name twice if you want it to have the same name in the new location.
+
+Copying vs. Cloning:
+  - If someone gives you the location of their directory or repo, you can copy or
+  clone it to your computer. Use git clone of the scp command - "secure copy"
+  - You won't get the history of changes to the directory or repo if you don't clone.
+  - git clone only works on a Git repo
+  - Whether you're copying or cloning, if you make changes to the the directory or
+  repo, the original won't change.
+  - All files are copied whether you copy a directory or clone a repo.
+
+Example:
+commit 7be5a12f1567866b0d77ccdf2055d1a33831da78
+Author: Ellison Leão <el@gmail.com>
+Date:   Fri Jul 11 12:56:26 2014 -0300
+
+  Add sound for the wing.
+
+commit 06d72e1f95f046002ec46f41cf71957227111141
+Author: Ellison Leão <el@gmail.com>
+Date:   Wed Jul 9 23:42:55 2014 -0300
+
+  Add mute button.
+
+commit 3d4d45b246aad6a1cd0afaf7cfae26966110727e
+Author: Ellison Leão <el@gmail.com>
+Date:   Mon Jul 7 17:35:47 2014 -0300
+
+  Fix leaderboard button
+
+Git Log:
+- lists the most recent commit first. If something is added in the middle commit
+i.e. the mute button, it is most likely also in the commits above it also have the code for the mute button.
+
+Git diff:
+If you want to compare the code before and after the mute button was created, so the mute button shows as an addition, you'd do git diff 3d.. 06..
+
+Git Checkout:
+- Checking out an earlier commit will change the state of at least one file.
+  Sometimes True: if you save commit 1, update to commit 2, then revert everything to how it was in commit 1 as commit 3, then checking out commit 1 won't change the state of any files.
+- Checking out an earlier commit will change the state of more than one file - sometimes
+- Checking out an earlier commit will change the state of every file - sometimes
+- After checking out a commit, the state of all the files in the repo will be from the same point in time - always true.
+
+To find bugs use git checkout of commits going back through the log until you find where the bug was introduced.
+
+
+Repositories:
+- git repositories store meta data about the history of the repository since it was created
+- hidden directories : .git
+the period tells the operating system to hide the file
+- typing $ ls -a
+shows all of your files, including the hidden ones.
+
+Creating a git repo:
+emilylong directoryname $ ls -a
+^ gives you all of the files in this directory
+emilylong directoryname $ git init
+^ initializes an empty git repo in this directory
+
+git status -- shows what files have changed since the last commit
+
+Staging Area:
+You can't just commit a file from a working directory into your git repo. The staging area is the middle step.
+  To add files to the staging area:
+  emilylong (master #) reflections $ git add cake.txt
+                              ...    git add frosting.txt
+
+  If you run git status, these files will now appear under "Changes to be committed:"
+
+Comparing your work:
+To compare the staging area to the working directory, you can use "git diff" without any arguments. This will come in handy if you want to see what changes you have made that haven't been committed.
+
+"git diff --staged" will show the differences between the staging area and the most recent commit.
+
+"git reset --hard" will reset any changes in the working directory or staging area. Careful because you'll never be able to get those changes back.
+
+Branches: labels for your commits
+A straight line of commits is good if your fixing bugs, adding new features, or updating documents. You might want to add a branch if you're working on experimental features or adding different versions for different languages.
+detached head -- means you are in a commit without a branch name
+
+Making a Branch:
+git branch -- shows you the current branches
+git branch branchname -- creates a new branch
+git checkout branchname -- moves you into the branch, all commits now will only affect that branch and not any others
+
+Comparing branches:
+You can see where a branch was pulled from the master branch using git log.
+git log --graph --oneline master branchname will show you the graph of the two branches
+(-- oneline makes the output easier to see, can be any two branch names)
+
+Reachability: draw a graph of the branches, with arrows heading back in time. branches can only reach the things behind them.
+
+Detached Head: current commit
+
+"git checkout -b new_branch_name" to create a new branch
+
+Merging: git merge branch1 branch2.
+If you're currently checked into the branch1, saying git merge branch2 branch3 will combine all three branches.
+If you want to make it simpler, git checkout branch1 and git merge branch2 will merge branch 1 and 2 together.
+
+git show commitid - compares the commit to its parent, even after you've merged branches. git diff on two commits that were originally from different branches will bring up a lot of unnecessary differences.
+
+git branch -d coins -- deletes the branch coins, but won't delete the commits themselves.
+
+Merge Conflicts: If git doesn't want to guess between adding or removing certain lines, it'll bring up an error message so you can decide.
+  git merge master easy-mode
+  Error: "CONFLICT (content): Merge conflict in game.js
+  Automatic merge failed; fix conflicts and then commit the result."
+
+  git indicates conflicts by <<<< and >>>>
+
+  To resolve a conflict in git: use git status
+  "On branch easy-mode. You have unmerged paths. (fix conflicts and run "git commit")
+  Unmerged paths: (use "git add <file>..." to mark resolution)
+  both modified:   game.js"
+  then git commmit
+  "On branch easy-mode. All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+  Changes to be committed: modified:   game.js"
+  git commit "Merge branch 'master' into easy-mode"
+
+Updating Easy Mode: If you want a branch to have all the updates that the master has, but you still want it to be a different branch from the master, be in easy-mode.
+
+Syncing Repositories: The repo on your computer and the repo in GitHub don't automatically sync. You can push data from your local commit history to your git hub commit history, or pull from your git history
+
+Creating a Repository: If your repo is empty, turn README on.
+git remote -- shows you what remotes you already have.
+If you're making your first remote: git remote add origin [url].
+git remote -v -- shows the urls you will fetch data from and the url you will push data to
+git push origin master -- pushed local files from master branch to the git hub repo. The new branch in github will also be called master.
+git push origin different-oil -- pushes the local branch "different-oil" to the origin.
+
+Creating a new file in github: if you create a file in your repo on git hub, you'll need to pull the file to the local branch if you want the local and github branches to be the same.
+git pull origin master -- pulled files from the origin to local master branch
+
+Forking a Repository: allows you to make a copy of someone's github repo without pulling it down to your local repo. When you're on the repo, hit the fork button. If you want to make edits in your editor and in your local repo, you'll need to clone your forked repo. Clone with the HTTPS link: git clone https://...
+cd into that repo, and verify that you have remotes fetching and pushing to the origin, your recipes repo in github with "git remote -v".
+
+Adding Collaborators: in your recipes repo, go to settings, collaborators, and then add by username. They can now push to your repo too.
+
+Conflicting Collaboration: If different changes are made to the master in your local repo and github repo, you'll need to merge them -- but in this case it's called fetching.
+If you have made different changes to the local master and github master branch, you can fetch the github master to make an origin/master in your local repo, then you can merge the origin/master with the local master.
+"git pull origin master" essentially does the same steps as "git fetch origin" followed by "git merge origin/master"
+
+git branch -a -- shows you the remotes
+If you want to compare the master branch from git hub to the master branch on your local repo when different changes have been made to them.
+origin/master is made up of the commits that are pulled from the master branch in github
+
+Fast-Forward Merges: when you merge the commits a and b, b being later in the branch, where you can get to a from b. These are for when you have a branch coming off of the master, but want to merge the branch so that it's the new master.
+
+Pull Requests: Use these when you want to merge changes into a master branch, but want to get people's feedback on them first. People can leave comments on the whole thing, or in line comments.
+Get into the branch that you want and then hit new pull request. Change your base to be the master branch you want to merge into, in this case it's my own master recipes branch.
+
+git pull origin master - updates the local master branch
+git push origin master - updates the github master branch
+merge alt pull request - updates the github master branch
+
+Update Pull Requests: simply change everything in your local branch, commit and push it to the origin, and the pull request will update.
+
+Merging Pull Requests with Conflicts: If there is a conflict so a branch can't be merged into the master branch in github, then github tells you to sort it out in your local drive. In the example, you have to pull the updated master branch to your computer. When you're collaborating though, you often don't want to just be updating the master branch with out checking with people first through pull requests, so in your local repo you should merge the master into the different-oil branch and push the different-oil branch to github to be merged in with the master there.
+
+** When merging branches, git checkout whatever branch you want to be the branch you end up with. If you want to merge the master into different-oil, be checked out in different-oil. **
+
+Merge Conflicts in Pull Request: If someone changes the original repo so your fork won't merge, you'll need to create a remote to the original.
+- Add original repository as a remote to the clone: copy original URL, then "git remote add upstream [URL]". The remote will be named upstream.
+- git checkout master
+- git pull upstream master
+- git checkout other-branch
+- git merge master other-branch
+  this will give you a conflict so
+- git add conflict.md (whatever file is conflicted)
+- git commit
+  conflict should be resolved
+- git push origin other-branch
