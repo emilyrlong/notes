@@ -1,0 +1,49 @@
+HTML - browser turns tags into elements in a tree (DOM)
+    <tag>
+    content - empty, text, or other element
+    </tag>
+
+    <h1 class = "article">
+    Udacity
+    </h1>
+
+CSS - uses a specific syntax & rules to change how elements look on the page
+
+p {
+
+}
+^ in css this will apply a style to all paragraphs
+
+.description {
+
+}
+^ this will apply the style to anything in the class "description"
+
+placehold.it -- makes fast images to work with the dimensions on the website
+<img src="http://placehold.it/100x100">
+
+to make things disappear:
+@media only screen and (max-width: 500px) {
+  p {
+      display: none;
+  }
+}
+
+HTML Lists:
+<ul> </ul> -- stands for unordered list (no numbers), creates a list with bold bullet points
+<ol> </ol> -- ordered list, numbered list
+<li> </li> -- stands for list item, need these inside ul and ol
+
+Images:
+<img src="URL" alt="Explanation">
+
+Adding CSS:
+In between the head tags, you can insert a tag
+<style>
+  h2 {
+    color: rgb(0, 232, 15); -- may or may not bring up a color picker
+  }
+  body {
+    background-color: rgb(97, 250, 255);
+  }
+</style>
